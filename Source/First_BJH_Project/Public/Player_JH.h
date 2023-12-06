@@ -31,7 +31,20 @@ public:
 		class UCapsuleComponent* collisionComp;
 	UPROPERTY(EditDefaultsOnly, Category = "MySettings")
 		class UCameraComponent* cameraComp;
+	UPROPERTY(EditDefaultsOnly, Category = "MySettings")
+		class USpringArmComponent* springArm;
+	UPROPERTY(EditAnywhere, Category = "MySettings|Inputs")
+		TArray<class UInputAction*> inputActions;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "MySettings")
+		class UInputAction* ia_Move;
+	UPROPERTY(EditDefaultsOnly, Category = "MySettings")
+		class UInputMappingContext* imc;
+	UPROPERTY()
+		class UPlayerMove* moveComp;
 
 private:
-	void MoveForward(float value);
+	UFUNCTION()
+	void MoveForward(const FInputActionValue& value);
+
 };

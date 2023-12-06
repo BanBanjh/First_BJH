@@ -3,6 +3,11 @@
 
 #include "Player_JH.h"
 #include "Camera/CameraComponent.h"
+#include "PlayerMove.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "EnhancedInputComponent.h"
 
 // Sets default values
 APlayer_JH::APlayer_JH()
@@ -11,13 +16,43 @@ APlayer_JH::APlayer_JH()
 	PrimaryActorTick.bCanEverTick = true;
 
 	cameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComponent"));
+	cameraComp->SetupAttachment(springArm, USpringArmComponent::SocketName);
+	cameraComp->bUsePawnControlRotation = false;
+	
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationYaw = false;
+	bUseControllerRotationRoll = false;
 
+	GetCharacterMovement()->bOrientRotationToMovement = true; 
+	GetCharacterMovement()->RotationRate = FRotator(0.f, 640.f, 0.f);
+	GetCharacterMovement()->bConstrainToPlane = true;
+	GetCharacterMovement()->bSnapToPlaneAtStart = true;
+
+	springArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
+	springArm->SetupAttachment(RootComponent);
+	springArm->SetUsingAbsoluteRotation(true);
+	springArm->TargetArmLength = 800.f;
+	springArm->SetRelativeRotation(FRotator(-60.f, 0.f, 0.f));
+	springArm->bDoCollisionTest = false;
+
+	moveComp = CreateDefaultSubobject<UPlayerMove>(TEXT("MoveComponent"));
+	
 }
 
 // Called when the game starts or when spawned
 void APlayer_JH::BeginPlay()
 {
 	Super::BeginPlay();
+	auto pc = Cast<APlayerController>(GetController()); //Local Player 넣을 플레이어 컨트롤러 선언
+	if (pc) //방어 코드
+	{
+		//parmeter 안에 Player Controller의 Local Player(Local Player Instance)를 넣어줘야 한다.
+		auto subSystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(pc->GetLocalPlayer());
+		if (subSystem)
+		{
+			subSystem->AddMappingContext(imc, 0); //MappingContext 추가
+		}
+	}
 	
 }
 
@@ -25,7 +60,7 @@ void APlayer_JH::BeginPlay()
 void APlayer_JH::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	
 }
 
 // Called to bind functionality to input
@@ -33,11 +68,18 @@ void APlayer_JH::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	PlayerInputComponent->BindAxis(TEXT("Forward"), this, &APlayer_JH::MoveForward);
+	auto pInput = CastChecked<UEnhancedInputComponent>(PlayerInputComponent);
+	if (pInput)
+	{
+		pInput->BindAction(ia_Move, ETriggerEvent::Triggered, this, &APlayer_JH::MoveForward);
+	}
 	
 }
 
-void APlayer_JH::MoveForward(float value)
+void APlayer_JH::MoveForward(const FInputActionValue& value)
 {
-	//value = GetActorForwardVector * 500
+	UE_LOG(LogTemp, Warning, TEXT("Move!!"));
+	FVector2D mValue = value.Get<FVector2D>();
+	this->AddMovementInput(this->GetActorRightVector(), mValue.X);
+	this->AddMovementInput(this->GetActorForwardVector(), mValue.Y);
 }

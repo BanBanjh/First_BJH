@@ -17,23 +17,12 @@ APlayer_JH::APlayer_JH()
 
 	cameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComponent"));
 	cameraComp->SetupAttachment(springArm, USpringArmComponent::SocketName);
-	cameraComp->bUsePawnControlRotation = false;
 	
-	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
-	bUseControllerRotationRoll = false;
-
 	GetCharacterMovement()->bOrientRotationToMovement = true; 
-	GetCharacterMovement()->RotationRate = FRotator(0.f, 640.f, 0.f);
-	GetCharacterMovement()->bConstrainToPlane = true;
-	GetCharacterMovement()->bSnapToPlaneAtStart = true;
 
 	springArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	springArm->SetupAttachment(RootComponent);
-	springArm->SetUsingAbsoluteRotation(true);
-	springArm->TargetArmLength = 800.f;
-	springArm->SetRelativeRotation(FRotator(-60.f, 0.f, 0.f));
-	springArm->bDoCollisionTest = false;
 
 	moveComp = CreateDefaultSubobject<UPlayerMove>(TEXT("MoveComponent"));
 	

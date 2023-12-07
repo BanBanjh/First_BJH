@@ -16,8 +16,8 @@ APlayer_JH::APlayer_JH()
 	PrimaryActorTick.bCanEverTick = true;
 
 	cameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComponent"));
-	cameraComp->SetupAttachment(springArm, USpringArmComponent::SocketName);
-	
+	cameraComp->SetupAttachment(springArm);
+
 	bUseControllerRotationYaw = false;
 	GetCharacterMovement()->bOrientRotationToMovement = true; 
 

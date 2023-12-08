@@ -33,7 +33,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 public:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "FSM")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "FSM")
 	EEnemyState mState = EEnemyState::Idle;
 	UPROPERTY(EditAnywhere)
 	float idleDelayTime = 2;
@@ -45,6 +45,8 @@ public:
 	class APlayer_JH* target;
 	UPROPERTY(EditAnywhere)
 	float speed = 100;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float attackRange = 200;
 public:
 	void IdleState();
 	void MoveState();

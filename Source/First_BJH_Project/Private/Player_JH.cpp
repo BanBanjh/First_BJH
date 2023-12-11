@@ -60,14 +60,14 @@ void APlayer_JH::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	auto pInput = CastChecked<UEnhancedInputComponent>(PlayerInputComponent);
 	if (pInput)
 	{
-		pInput->BindAction(ia_Move, ETriggerEvent::Triggered, this, &APlayer_JH::MoveForward);
+		pInput->BindAction(ia_Move, ETriggerEvent::Triggered, this, &APlayer_JH::Move);
 	}
 	
 }
 
-void APlayer_JH::MoveForward(const FInputActionValue& value)
+void APlayer_JH::Move(const FInputActionValue& value)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Move!!"));
+	//UE_LOG(LogTemp, Warning, TEXT("Move!!"));
 	FVector2D mValue = value.Get<FVector2D>();
 	this->AddMovementInput(this->GetActorRightVector(), mValue.X);
 	this->AddMovementInput(this->GetActorForwardVector(), mValue.Y);

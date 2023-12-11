@@ -45,6 +45,6 @@ public:
 
 private:
 	UFUNCTION()
-	void MoveForward(const FInputActionValue& value);
+	void Move(const FInputActionValue& value);
 
 };

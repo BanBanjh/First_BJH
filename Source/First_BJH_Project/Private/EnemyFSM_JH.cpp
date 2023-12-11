@@ -79,7 +79,7 @@ void UEnemyFSM_JH::MoveState()
 
     if (distance < attackRange) //설정한 attackRange의 값보다 거리가 좁아진다면
     {
-        mState = EEnemyState::Attack; //공격상태로 전환
+       // mState = EEnemyState::Attack; //공격상태로 전환
     }
 
     //FVector P = me->GetActorLocation() + Direction * speed * GetWorld()->DeltaTimeSeconds;

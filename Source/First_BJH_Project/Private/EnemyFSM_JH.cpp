@@ -32,28 +32,29 @@ void UEnemyFSM_JH::BeginPlay()
 void UEnemyFSM_JH::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-    switch (mState)
+    if (target != nullptr)
     {
-    case EEnemyState::Idle:
-        IdleState();
-        break;
-    case EEnemyState::Move:
-        MoveState();
-        break;
-    case EEnemyState::Attack:
-        AttackState();
-        break;
-    case EEnemyState::Damage:
-        DamageState();
-        break;
-    case EEnemyState::Die:
-        DieState();
-        break;
-    default:
-        break;
+        switch (mState)
+        {
+        case EEnemyState::Idle:
+            IdleState();
+            break;
+        case EEnemyState::Move:
+            MoveState();
+            break;
+        case EEnemyState::Attack:
+            AttackState();
+            break;
+        case EEnemyState::Damage:
+            DamageState();
+            break;
+        case EEnemyState::Die:
+            DieState();
+            break;
+        default:
+            break;
+        }
     }
-
 }
 
 void UEnemyFSM_JH::IdleState()

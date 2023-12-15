@@ -39,12 +39,18 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "MySettings")
 		class UInputAction* ia_Move;
 	UPROPERTY(EditDefaultsOnly, Category = "MySettings")
+		class UInputAction* ia_Clicked;
+	UPROPERTY(EditDefaultsOnly, Category = "MySettings")
 		class UInputMappingContext* imc;
 	UPROPERTY()
 		class UPlayerMove* moveComp;
+	//UPROPERTY(EditDefaultsOnly, Category = "MySettings")
+		//class UPlayerController_JH* pc;
 
 private:
 	UFUNCTION()
 	void Move(const FInputActionValue& value);
 
+	UFUNCTION()
+	void OnRightClick();
 };
